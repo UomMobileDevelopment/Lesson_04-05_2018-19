@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: starting an async Task....");
 
         DownloadData downloadData = new DownloadData();
-        downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml");
+        downloadData.execute("https://jsonplaceholder.typicode.com/posts");
 
         Log.d(TAG, "onCreate: DONE");
     }
@@ -33,29 +34,38 @@ public class MainActivity extends AppCompatActivity {
         private static final String TAG = "TeoDownloadDataTask";
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.d(TAG, "onPostExecute parameter is " + s );
+        protected void onPostExecute(String jsonData) {
+            super.onPostExecute(jsonData);
+            Log.d(TAG, "onPostExecute parameter is " + jsonData );
+            JSONParser parser = new JSONParser();
+            parser.parse(jsonData);
+
+            ArrayList<Post> posts = parser.getPosts();
+
+            for(int i =0; i<posts.size(); i++){
+                Log.d(TAG, posts.get(i).toString());
+                Log.d(TAG, "-------------------------------");
+            }
         }
 
         @Override
         protected String doInBackground(String... strings) {
             Log.d(TAG, "doInBackground starts with: " + strings[0]);
-            String rssString = downloadXML(strings[0]);
-            if(rssString == null){
+            String postData = downloadJSON(strings[0]);
+            if(postData == null){
                 Log.e(TAG, "doInBackground: Error downloading from url " + strings[0] );
             }
-            return rssString;
+            return postData;
         }
 
-        private String downloadXML(String urlPath) {
+        private String downloadJSON(String urlPath) {
             StringBuilder sb = new StringBuilder();
 
             try{
                 URL url = new URL(urlPath);
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                 int reponseCode = connection.getResponseCode();
-                Log.d(TAG, "downloadXML: Response code was " + reponseCode);
+                Log.d(TAG, "downloadJSON: Response code was " + reponseCode);
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
@@ -68,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 reader.close();
 
             } catch (MalformedURLException e) {
-                Log.e(TAG, "downloadXML: not correct URL: "+urlPath , e);
+                Log.e(TAG, "downloadJSON: not correct URL: "+urlPath , e);
             } catch (IOException e) {
-                Log.e(TAG, "downloadXML: io error ",e);
+                Log.e(TAG, "downloadJSON: io error ",e);
             }
 
             return sb.toString();
