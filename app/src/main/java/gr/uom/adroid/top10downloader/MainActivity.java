@@ -36,16 +36,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String jsonData) {
             super.onPostExecute(jsonData);
-            Log.d(TAG, "onPostExecute parameter is " + jsonData );
-            JSONParser parser = new JSONParser();
-            parser.parse(jsonData);
-
-            ArrayList<Post> posts = parser.getPosts();
-
-            for(int i =0; i<posts.size(); i++){
-                Log.d(TAG, posts.get(i).toString());
-                Log.d(TAG, "-------------------------------");
-            }
         }
 
         @Override
