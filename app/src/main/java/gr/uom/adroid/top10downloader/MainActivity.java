@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,10 +19,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TeoMainActivity";
 
+    private ListView postListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        postListView = findViewById(R.id.postListView);
 
         Log.d(TAG, "onCreate: starting an async Task....");
 
@@ -46,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, posts.get(i).toString());
                 Log.d(TAG, "-------------------------------");
             }
+
+            ArrayAdapter<Post> postAdapter = new ArrayAdapter<Post>(
+                    MainActivity.this, R.layout.list_item, posts);
+
+            postListView.setAdapter(postAdapter);
         }
 
         @Override
