@@ -4,8 +4,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,12 +31,37 @@ public class MainActivity extends AppCompatActivity {
 
         postListView = findViewById(R.id.postListView);
 
-        Log.d(TAG, "onCreate: starting an async Task....");
+        downloadDataFromUrl("https://jsonplaceholder.typicode.com/posts");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.post_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId){
+            case R.id.menuUser1Posts:
+                Toast.makeText(this, "Showing posts of user 1", Toast.LENGTH_LONG).show();
+                downloadDataFromUrl("https://jsonplaceholder.typicode.com/posts?userId=1");
+                break;
+            case R.id.menuUser2Posts:
+
+                Toast.makeText(this, "Showing posts of user 2", Toast.LENGTH_LONG).show();
+                downloadDataFromUrl("https://jsonplaceholder.typicode.com/posts?userId=2");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadDataFromUrl(String feedUrl){
 
         DownloadData downloadData = new DownloadData();
-        downloadData.execute("https://jsonplaceholder.typicode.com/posts");
+        downloadData.execute(feedUrl);
 
-        Log.d(TAG, "onCreate: DONE");
     }
 
     private class DownloadData extends AsyncTask<String, Void, String>{

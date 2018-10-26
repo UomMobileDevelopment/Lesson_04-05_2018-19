@@ -38,18 +38,35 @@ public class PostAdapter extends ArrayAdapter<Post> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(layoutResource, parent, false);
-        TextView postId = view.findViewById(R.id.txtPostId);
-        TextView postTitle = view.findViewById(R.id.txtPostTitle);
-        TextView postBody = view.findViewById(R.id.txtPostBody);
+        ViewHolder viewHolder;
+        if(convertView == null){
+            convertView = inflater.inflate(layoutResource, parent, false);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder)convertView.getTag();
+        }
 
         Post post = posts.get(position);
 
-        postId.setText(post.getPostId()+"");
-        postTitle.setText(post.getTitle()+"");
-        postBody.setText(post.getBody()+"");
+        viewHolder.postId.setText(post.getPostId()+"");
+        viewHolder.postTitle.setText(post.getTitle()+"");
+        viewHolder.postBody.setText(post.getBody()+"");
 
-        return view;
+        return convertView;
+    }
+
+    private class ViewHolder{
+        final TextView postId;
+        final TextView postTitle;
+        final TextView postBody;
+
+        ViewHolder(View view){
+             postId = view.findViewById(R.id.txtPostId);
+             postTitle = view.findViewById(R.id.txtPostTitle);
+             postBody = view.findViewById(R.id.txtPostBody);
+        }
     }
 
 }
