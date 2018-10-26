@@ -53,8 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "-------------------------------");
             }
 
-            ArrayAdapter<Post> postAdapter = new ArrayAdapter<Post>(
-                    MainActivity.this, R.layout.list_item, posts);
+//            ArrayAdapter<Post> postAdapter = new ArrayAdapter<Post>(
+//                    MainActivity.this, R.layout.list_item, posts);
+//
+//            postListView.setAdapter(postAdapter);
+
+            PostAdapter postAdapter = new PostAdapter(MainActivity.this, R.layout.list_record, posts);
 
             postListView.setAdapter(postAdapter);
         }
@@ -75,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
             try{
                 URL url = new URL(urlPath);
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                int reponseCode = connection.getResponseCode();
-                Log.d(TAG, "downloadJSON: Response code was " + reponseCode);
+                int responseCode = connection.getResponseCode();
+                Log.d(TAG, "downloadJSON: Response code was " + responseCode);
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
