@@ -18,4 +18,4 @@ Continue from here in lesson 05
 
 
 ## How adapters work
-![Adapter]((https://github.com/UomMobileDevelopment/Lesson02-material/blob/master/listViewDataHandlingModel.PNG))
+![Adapter](https://github.com/UomMobileDevelopment/Lesson02-material/blob/master/listViewDataHandlingModel.PNG)
