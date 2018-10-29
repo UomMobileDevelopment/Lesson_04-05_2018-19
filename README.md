@@ -15,3 +15,7 @@ Continue from here in lesson 05
 
 4. Learn about List Views
 5. Create a List View with TextView as a list item
+
+
+## How adapters work
+![Adapter]((https://github.com/UomMobileDevelopment/Lesson02-material/blob/master/listViewDataHandlingModel.PNG))
