@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,16 +13,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TeoMainActivity";
 
+    private ListView postListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        postListView = findViewById(R.id.postListView);
 
         Log.d(TAG, "onCreate: starting an async Task....");
 
@@ -36,6 +42,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String jsonData) {
             super.onPostExecute(jsonData);
+            Log.d(TAG, "onPostExecute: "+jsonData);
+
+            JSONParser parser = new JSONParser();
+            List<Post> posts = parser.parseJson(jsonData);
+
+//           ArrayAdapter<Post> adapter = new ArrayAdapter<Post>(
+//                   MainActivity.this, R.layout.list_item, posts  );
+//           postListView.setAdapter(adapter);
+
+            PostAdapter postAdapter = new
+                    PostAdapter(MainActivity.this,
+                        R.layout.list_record,
+                        posts);
+
+            postListView.setAdapter(postAdapter);
+
         }
 
         @Override
