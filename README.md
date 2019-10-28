@@ -13,3 +13,8 @@
 
 ## How adapters work
 ![Adapter](https://github.com/UomMobileDevelopment/Lesson02-material/blob/master/listViewDataHandlingModel.PNG)
+
+
+## Finding Views...
+
+![](https://github.com/UomMobileDevelopment/Lesson02-material/blob/master/findingViews.PNG)
